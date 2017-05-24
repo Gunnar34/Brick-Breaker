@@ -47,9 +47,9 @@ $(document).ready(function(){
   function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
-    collisionDetection();
     drawPaddle();
     paddleBoundaries();
+    collisionDetection();
     x += dx;
     y += dy;
   }
@@ -66,13 +66,13 @@ $(document).ready(function(){
       else if(y + dy > canvas.height-ballRadius) {
           if(x > paddleX && x < paddleX + paddleWidth) {
           dy = -dy;
-          if(y + dy > canvas.height + 10) {
+          }
+          if(y + dy > canvas.height + 12) {
              alert("GAME OVER");
              document.location.reload();
              }
-          }
-        }
       }
+  }
 
   //checks if the ball location is greater or less than any of the canvas borders. If its less than the bottom border,
   //trigger a game reset. If
