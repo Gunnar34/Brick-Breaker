@@ -22,6 +22,10 @@ $(document).ready(function(){
   var leftPressed = false;
   //placeholder variables defining that the keys at default are not pressed
 
+  $(document).on('keydown', keyDownHandler);
+  $(document).on('keyup', keyUpHandler);
+  //listeners for key presses and releases
+
   function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
@@ -45,6 +49,7 @@ $(document).ready(function(){
     drawBall();
     collisionDetection();
     drawPaddle();
+    paddleBoundaries();
     x += dx;
     y += dy;
   }
@@ -55,11 +60,54 @@ $(document).ready(function(){
           dx = -dx;
       }
 
-      if(y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+      if(y + dy < ballRadius) {
           dy = -dy;
       }
+      else if(y + dy > canvas.height-ballRadius) {
+          if(x > paddleX && x < paddleX + paddleWidth) {
+          dy = -dy;
+          if(y + dy > canvas.height + 10) {
+             alert("GAME OVER");
+             document.location.reload();
+             }
+          }
+        }
+      }
+
+  //checks if the ball location is greater or less than any of the canvas borders. If its less than the bottom border,
+  //trigger a game reset. If
+
+  function keyDownHandler(e) {
+      if(e.keyCode == 39) {
+          rightPressed = true;
+      }
+      else if(e.keyCode == 37) {
+          leftPressed = true;
+      }
   }
-  //checks if the ball location is greater or less than any of the canvas borders.
+
+  function keyUpHandler(e) {
+      if(e.keyCode == 39) {
+          rightPressed = false;
+      }
+      else if(e.keyCode == 37) {
+          leftPressed = false;
+      }
+  }
+//these functions allow movement where keycode 39 of pressing the right arrow sets the var to true,
+//releasing it sets it to false. the same is true for the keycode 37 of the left arrow
+
+  function paddleBoundaries(){
+
+      if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 7;
+      }
+      else if(leftPressed && paddleX > 0) {
+        paddleX -= 7;
+      }
+  }
+//this if else statement sets paddle positioning when the vars change due to key press. the second half of the
+//statement indicates that the paddle cannot go beyond the canvas border limits.
 
   setInterval(draw, 10);
   //calling setInterval on draw makes it so that the ball will be called every 10ms
