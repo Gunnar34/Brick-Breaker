@@ -3,7 +3,12 @@
   margin: 0;
 }
 canvas {
-  background: #eee;
+  background: rgb(70, 70, 70);
   display: block;
   margin: 0 auto;
+}
+h1 {
+  color: rgb(0, 150, 255);
+  text-align: center;
+  margin: 10px;
 }
