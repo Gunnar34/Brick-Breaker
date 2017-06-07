@@ -111,9 +111,18 @@ $(document).ready(function(){
           if(x > paddleX && x < paddleX + paddleWidth) {
           dy = -dy;
           }
-          if(y + dy > canvas.height + 12) {
-             alert("GAME OVER");
-             document.location.reload();
+          if(y + dy > canvas.height) {
+            swal({
+                title: "GAME OVER",
+                text: "OK to begin New Game",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+              },
+                function(){
+                  document.location.reload();
+                });
              }
       }
       for(c=0; c<brickColumnCount; c++) {
@@ -126,7 +135,7 @@ $(document).ready(function(){
                     score++;
                     console.log(b);
                     if(score == brickRowCount*brickColumnCount) {
-                      alert('next Level');
+                      swal("Congratulations!", "Continue to the next level?");
                       ctx.canvas.height += 150;
                       ctx.canvas.width += 150;
                       for(c=0; c<brickColumnCount; c++) {
